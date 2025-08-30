@@ -46,6 +46,31 @@ So hope I have a calculation error and the resolution is horizontal and vertical
 
 The programm uses 37828 byte RAM from 532480, with only one buffer for the 12 Bytes. Let`s assume, that 400000 are free at the end, when all is programmed. 400.000 / 12 = 33333 lines are possible to store. 33333 * 0.125mm/pulse = 4166 mm. 4m? Who will print that? That mean the memory is quite enough for that. Go the way round. 25cm is a long text for such a lable. 250mm/0.125mm/pulse = 2000 pulses. 12 Bytes * 2000 = 24000 Bytes. So I will reserve a Buffer of 32k.
 
+## connection of ESP32 and modifications
+
+1. Batteries are not enought with this solution and anyway the place is needed for the ESP32
+I use a 9V Power supply directly soldered on the smal power PCB (no image yet)
+
+1. Remove the micro controller. Okay, now the display and the keyboard is not working anymore. But when you print from your PC, there is no need anymore.
+1. R8 from the µC side need to be tied to GND. Could be made switchable, but not needed.
+1. C25 need to be increased by a parallel 1nF. Whithout that I had a lot of glitches.
+1. R9 need to be removed. The replacment is a 10k resistor on the µC Side to 3V3 from the ESP32
+1. Between this resistor and the C25 is now the lightbarrier signal of the transport motor
+1. 5V enable need to be connected on (you find it inside of the not existing IC, the smal bridge)
+1. PIN 2-5 (Latch, Clock, Heat and Data) need to be connected to 15, 0, 17 and 4
+1. PWM need to be connected on R6 (the side, which is not connected to R7)
+1. A step down from 9V to 5V is needed to feed the ESP32 on the 5V side. The 5V from the main pcb is to weak to feed the ESP32 with W-LAN
+
+There are some recordings of the original signals in the folder pcb_details
+
+Pictures:
+
+![main pcb](/pcb_details/mainpcb.jpg)
+
+![main pcb back](/pcb_details/mainpcb_backside.jpg)
+
+![print pcb](/pcb_details/printpcb.jpg)
+
 ## Disclaimer
 
 Casio is a registered trademark of Casio Computer Co., Ltd.  
